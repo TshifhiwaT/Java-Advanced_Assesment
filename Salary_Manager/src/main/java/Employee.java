@@ -23,6 +23,9 @@ public class Employee implements IEmployee {
     }
 
     public void setEmployeeID(String employeeID) {
+        if(!employeeID.startsWith("EM")){
+            throw new IllegalArgumentException("Employee ID should start with EM");
+        }
         this.employeeID = employeeID;
     }
 
@@ -39,6 +42,9 @@ public class Employee implements IEmployee {
     }
 
     public void setBasicSalary(double basicSalary) {
+        if(basicSalary < 4000){
+            throw new IllegalArgumentException("Basic Salary must be more than R4000");
+        }
         this.basicSalary = basicSalary;
     }
 
@@ -68,7 +74,11 @@ public class Employee implements IEmployee {
 
     @Override
     public double raiseSalary(double percentage) {
-        basicSalary += (basicSalary * percentage);
+        double increase = (basicSalary * percentage);
+        if(increase > 5000){
+            throw new HighSalaryIncrease("Salary increase of " + increase + " for " + name + " is more than the threshold R5000");
+        }
+        basicSalary += increase;
         return basicSalary;
     }
 
@@ -118,15 +128,15 @@ public class Employee implements IEmployee {
     @Override
     public String toString() {
         return String.format("""
-                Employee          : [%s] %s
+                Employee          : [%s]%s
                 Title             : %s
                 Position          : %s
                 Department        : %s
                 ==============Salary Breakdown===============
-                Basic             : %.2f
-                House Allowance   : %.2f
-                Gross             : %.2f
-                Tax Deduction     : %.2f
-                Net               : %.2f""", employeeID, name, jobTitle, position, department, basicSalary, calcHouseAllowance(), calcGrossSalary(), calcTax(), calcNetSalary());
+                Basic             : R%.1f
+                House Allowance   : R%.1f
+                Gross             : R%.1f
+                Tax Deduction     : R%.1f
+                Net               : R%.1f""", employeeID, name, jobTitle, position, department, basicSalary, calcHouseAllowance(), calcGrossSalary(), calcTax(), calcNetSalary());
     }
 }
