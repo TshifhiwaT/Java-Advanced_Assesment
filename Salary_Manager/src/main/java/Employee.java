@@ -7,7 +7,7 @@ public class Employee implements IEmployee {
     private Positions position;
     private String department;
     private final double TAX = 0.15;
-    private final double HOUSE_ALLOWANCE = 0.8;
+    private final double HOUSE_ALLOWANCE = 0.08;
 
     public Employee(String employeeID, String name, String jobTitle, Positions position, String department, double basicSalary) {
         setEmployeeID(employeeID);
@@ -102,7 +102,7 @@ public class Employee implements IEmployee {
 
     @Override
     public double calcGrossSalary() {
-        return basicSalary = calcHouseAllowance();
+        return basicSalary + calcHouseAllowance();
     }
 
     @Override
@@ -115,5 +115,18 @@ public class Employee implements IEmployee {
         return calcGrossSalary() - calcTax();
     }
 
-
+    @Override
+    public String toString() {
+        return String.format("""
+                Employee          : [%s] %s
+                Title             : %s
+                Position          : %s
+                Department        : %s
+                ==============Salary Breakdown===============
+                Basic             : %.2f
+                House Allowance   : %.2f
+                Gross             : %.2f
+                Tax Deduction     : %.2f
+                Net               : %.2f""", employeeID, name, jobTitle, position, department, basicSalary, calcHouseAllowance(), calcGrossSalary(), calcTax(), calcNetSalary());
+    }
 }
